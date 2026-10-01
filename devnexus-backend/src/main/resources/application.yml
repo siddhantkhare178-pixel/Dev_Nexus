@@ -1,0 +1,58 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: devnexus-backend
+  profiles:
+    active: dev
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/DevNexus}
+    username: ${POSTGRES_USER:DevNexus}
+    password: ${POSTGRES_PASSWORD:devnexus_secret}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2000
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GMAIL_USER:}
+    password: ${GMAIL_APP_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+DevNexus:
+  jwt:
+    secret: ${JWT_SECRET:}  # REQUIRED — must be set via environment variable. No fallback.
+    expiration-ms: 86400000 # 24 hours
+  gemini:
+    api-key: ${GEMINI_API_KEY:your_gemini_api_key_here}
+    model: gemini-2.0-flash
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
